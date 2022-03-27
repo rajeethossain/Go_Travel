@@ -9,7 +9,7 @@
             	$connect = mysqli_connect( HOST, USER, PASS, DB )
             		or die("Can not connect");
 
-              $returnobj = mysqli_query( $connect, "DELETE FROM employee WHERE guide_id = $guide_id" )
+              $returnobj = mysqli_query( $connect, "DELETE FROM guide WHERE guide_id = $guide_id" )
                 or die("Can not execute query");
 
               ?>
