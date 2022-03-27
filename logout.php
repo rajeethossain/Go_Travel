@@ -13,7 +13,7 @@ if(
 
     ?>
         <script>alert("logged out successfully!");</script>
-        <script>location.assign("a_login.php");</script>
+        <script>location.assign("index.html");</script>
     <?php
 
 }
