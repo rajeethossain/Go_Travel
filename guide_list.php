@@ -122,6 +122,7 @@ $access = $_SESSION['access'];
                                   ?>
                                   <th>Address</th>
                                   <th>Bank Account</th>
+                                  <th>PV</th>
                                   <?php
                               }
                               ?>
@@ -160,6 +161,7 @@ $access = $_SESSION['access'];
                                               ?>
                                               <td><?php echo $Address?></td>
                                               <td><?php echo $Bank_Account_no ?></td>
+                                              <td><img src="<?php echo $pv_Image?>" width="125" height="150"></td>
                                               <?php
                                           }
 
