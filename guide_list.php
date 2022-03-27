@@ -174,7 +174,11 @@ $access = $_SESSION['access'];
                                   }
 
                           ?>
-
+                          <script>
+                          function deleteProfile(guide_id){
+                            location.assign('guide_profile_delete.php?guide_id='+guide_id);
+                          }
+                          </script>
 
 <!--------------------------------------------------------------------------------------------------------------------------------------->
 
