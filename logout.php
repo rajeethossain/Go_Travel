@@ -19,7 +19,7 @@ if(
 }
 else{
     ?>
-        <script>location.assign("a_login.php");</script>
+        <script>location.assign("index.html");</script>
     <?php
 }
 
