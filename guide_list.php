@@ -1,5 +1,7 @@
 <?php
 session_start();
+if(isset($_SESSION['username']) && !empty($_SESSION['username']))
+{
 $access = $_SESSION['access'];
 ?>
 <!DOCTYPE html>
@@ -167,7 +169,8 @@ $access = $_SESSION['access'];
                                             ?>
 
                                           <td>
-                                            <input id="button2" type="button" value="Delete" onclick="deleteProfile('<?php echo $row['guid_id']?>');">
+                                            <input id="button2" type="button" value="Delete" onclick="deleteProfile('<?php echo $guide_id ?>');">
+
                                           </td>
                                           <?php
 
@@ -178,6 +181,7 @@ $access = $_SESSION['access'];
                           function deleteProfile(guide_id){
                             location.assign('guide_profile_delete.php?guide_id='+guide_id);
                           }
+
                           </script>
 
 <!--------------------------------------------------------------------------------------------------------------------------------------->
@@ -190,3 +194,16 @@ $access = $_SESSION['access'];
     <script src="js/script.js"></script>
   </body>
 </html>
+
+
+<?php
+}
+else{
+  ?>
+  <script>
+
+    location.assign('a_login.php');
+
+  </script>
+  <?php
+} ?>
