@@ -164,6 +164,12 @@ $access = $_SESSION['access'];
                                               <td><img src="<?php echo $pv_Image?>" width="125" height="150"></td>
                                               <?php
                                           }
+                                            ?>
+
+                                          <td>
+                                            <input id="button2" type="button" value="Delete" onclick="deleteProfile('<?php echo $row['guid_id']?>');">
+                                          </td>
+                                          <?php
 
                                   }
 
