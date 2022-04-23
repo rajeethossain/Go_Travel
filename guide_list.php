@@ -140,7 +140,7 @@ $access = $_SESSION['access'];
 
                         <?php
 
-                          $returnobj = mysqli_query( $connect, "SELECT * FROM guide AS g JOIN city AS ct ON g.City_ID = ct.City_ID" )
+                          $returnobj = mysqli_query( $connect, "SELECT * FROM guide AS g JOIN city AS ct ON g.City_ID = ct.City_ID WHERE Approved = 1" )
                             or die("Can not execute query");
 
 
