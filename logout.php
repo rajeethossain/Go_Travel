@@ -10,13 +10,13 @@ if(
 
     ?>
         <script>alert("logged out successfully!");</script>
-        <script>location.assign("index.html");</script>
+        <script>location.assign("index.php");</script>
     <?php
 
 }
 else{
     ?>
-        <script>location.assign("index.html");</script>
+        <script>location.assign("index.php");</script>
     <?php
 }
 

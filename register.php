@@ -1,14 +1,51 @@
-<?php
-session_start();
-if(isset($_SESSION['username']) && !empty($_SESSION['username']))
-{
-$access = $_SESSION['access'];
-// $access == 'admin';
-?>
 <!DOCTYPE html>
 <html class="wide wow-animation" lang="en">
   <head>
-    <title>Home</title>
+  <title>Customer Registration</title>
+
+<style>
+
+    body {
+    background-color: lightblue;
+    }
+
+    .text{
+
+    height: 20px;
+    border-radius: 5px;
+    padding: 2px;
+    border: solid thin #aaa;
+    width: 90%;
+    }
+
+
+    #button{
+
+    padding: 10px;
+    width: 125px;
+    color: white;
+    background-color: #010d31;
+    border: none;
+    }
+
+    #button1{
+
+    padding: 10px;
+    width: 250px;
+    color: white;
+    background-color: #010d31;
+    border: none;
+    }
+
+    #box{
+
+    background-color: AliceBlue;
+    margin: auto;
+    width: 400px;
+    padding: 20px;
+    }
+
+</style>
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,7 +56,6 @@ $access = $_SESSION['access'];
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/css.css">
     <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
   </head>
   <body>
@@ -33,7 +69,7 @@ $access = $_SESSION['access'];
       </div>
     </div>
     <div class="page">
-
+      
       <header class="section page-header">
         <!-- RD Navbar-->
         <div class="rd-navbar-wrap">
@@ -67,7 +103,6 @@ $access = $_SESSION['access'];
                       </div>
                     </li>
                   </ul><a class="button button-md button-default-outline-2 button-ujarak" href="#">Get a Free Quote</a>
-                  <a class="button button-md button-default-outline-2 button-ujarak" href="logout.php">Sign Out</a>
                 </div>
               </div>
             </div>
@@ -98,101 +133,114 @@ $access = $_SESSION['access'];
         </div>
       </header>
 
-      <?php
+
+      <form id="box" action="registerProcess.php" method="POST">
+
+<div style="font-size: 20px;margin: 10px;"><b>REGISTER FOR FREE</b></div>
+
+    <label for="username"><b>Username</b></label>:
+    <input class="text" type="text" id="username" name="username" placeholder="your username">
+    <br> 
+    <label for="mypass"><b>Password</b></label>:
+    <input class="text" type="password" id="mypass" name="mypass" placeholder="password">
+    <br>
+    <label for="myname"><b>Full Name</b></label>:
+    <input class="text" type="text" id="myname" name="myname" placeholder="Write your Fullname">
+    <br>
+    <label for="contact"><b>Contact No</b></label>:
+    <input class="text" type="number" id="contact" name="contact" placeholder="Give your contact">
+    <br>
+
+    <label for="country"><b>Country</b></label>:
+    <select class="text" id="country" name="country" onchange="selectcountry()">
+        <option selected="selected" value="">Select Country</option>
+        <option value="Bangladesh">Bangladesh</option>
+        <option value="India">India</option>
+        <option value="UK">UK</option>
+        <option value="USA">USA</option>
+        <option value="China">China</option>
+    </select>
+    <br>
+    <label for="district"><b>District</b></label>:
+              <select class="text" id="district" name="district" onchange="selectCity()">
+                  <option selected="selected" value="">Select District</option>
+                  <option value="Dhaka">Dhaka</option>
+                  <option value="Chittagong">Chittagong</option>
+                  <option value="Rajshahi">Rajshahi</option>
+                  <option value="Sylhet">Sylhet</option>
+                  <option value="Khulna">Khulna</option>
+              </select>
+     <br>
+    
+     <label for="city"><b>City</b></label>: <br>
+     <input class="text" type="text" id="city" name="city" placeholder="Write your City">
+     <br>
+    
+    <label for="address"><b>Address</b></label>:
+    <input class="text" type="text" id="address" name="address" placeholder="Give your Address">
+    <br>
+    <label for="NID_Number"><b>NID Number</b></label>:
+    <input class="text" type="text" id="NID_Number" name="NID_Number" placeholder="Give your NID Number">
+    <br>
+    <label for="Passport_Number"><b>Passport Number</b></label>:
+    <input class="text" type="text" id="Passport_Number" name="Passport_Number" placeholder="Give your Passport Number">      
+    <br><br> 
+    <input id="button" type="submit" value="Click to Register">
+
+    <input id="button" type='button' value="Back to login" onclick="login();">
+
+    <br><br>
+    
+    
+</form>
+
+<br><br>
 
 
-        require_once('db_connect.php');
-      	$connect = mysqli_connect( HOST, USER, PASS, DB )
-      		or die("Can not connect");
-      ?>
 
-<!--------------------------------------------------------------------------------------------------------------------------------------->
+<script>
+ function selectCity(){
+            var a=document.getElementById("district").value;
+            if(a === "Dhaka")
+            {
+                var arr=["Mohammadpur","Mirpur","Badda", ];
+            }
+            else if(a === "Chittagong")
+            {
+                var arr=["Pahartali","Chawk Bazar", "Patenga"];
+            }
+            else if(a === "Rajshahi")
+            {
+                var arr=["Shaheb Bazar","Chhota Banagram", "Shiroil"];
+            }
+            else if(a === "Sylhet")
+            {
+                var arr=["coming soon"];
+            }
+            else if(a === "Khulna")
+            {
+                var arr=["coming soon"];
+            }
 
-              <h2 class="title"> Guide List </h2>
+            var string="";
 
-                  <table id="ptable">
-                      <thead>
-                          <tr>
-                              <th>Image</th>
-                              <th>Name</th>
-                              <th>City</th>
-                              <th>Contact no.</th>
-                              <th>Email</th>
-                              <th>NID</th>
-                              <th>Joining Date</th>
-                              <?php
-                              if($access == 'admin'){
-                                  ?>
-                                  <th>Address</th>
-                                  <th>Bank Account</th>
-                                  <th>PV</th>
-                                  <?php
-                              }
-                              ?>
-                              <th>Action</th>
+            for(i=0;i<arr.length;i++)
+            {
+                string=string+"<option value="+arr[i]+">"+arr[i]+"</option>";
+            }
+            document.getElementById("output").innerHTML=string;
+        }
+
+  function login(){
+      location.assign('login.php');
+  }
+
+  function f_registration(){
+      location.assign('register.php');
+  }
 
 
-                          </tr>
-                      </thead>
-                      <tbody>
-
-                        <?php
-
-                          $returnobj = mysqli_query( $connect, "SELECT * FROM guide AS g JOIN city AS ct ON g.City_ID = ct.City_ID" )
-                            or die("Can not execute query");
-
-
-                                while( $rows = mysqli_fetch_array( $returnobj ) ) {
-                                    extract( $rows );
-                                      ?>
-
-                                      <tr>
-                                          <td>
-                                              <img src="<?php echo $Image?>" width="125" height="150">
-                                          </td>
-                                          <td>
-                                            <input id="button2" type="button" value="<?php echo $Name?>" onclick="showProfile('<?php echo $row['guid_id']?>');">
-                                          </td>
-                                          <td><?php echo $City ?></td>
-                                          <td><?php echo $Contact_no ?></td>
-                                          <td><?php echo $Email ?></td>
-                                          <td><?php echo $nid?></td>
-                                          <td><?php echo $Joining_Date ?></td>
-
-                                          <?php
-                                          if($access  == 'admin'){
-                                              ?>
-                                              <td><?php echo $Address?></td>
-                                              <td><?php echo $Bank_Account_no ?></td>
-                                              <td><img src="<?php echo $pv_Image?>" width="125" height="150"></td>
-                                              <td>
-                                                <input id="button2" type="button" value="Delete" onclick="deleteProfile('<?php echo $guide_id ?>');">
-
-                                              </td>
-                                              <?php
-                                          }
-                                          else{
-                                            ?>
-                                            <td>
-                                              <input id="button2" type="button" value="Book" onclick="bookGuide('<?php echo $guide_id ?>');">
-
-                                            </td>
-
-                                          <?php
-                                          }
-                                  }
-
-                          ?>
-                      </tbody>
-                  </table>
-                          <script>
-                          function deleteProfile(guide_id){
-                            location.assign('guide_profile_delete.php?guide_id='+guide_id);
-                          }
-
-                          </script>
-
-<!--------------------------------------------------------------------------------------------------------------------------------------->
+</script>
 
 
 
@@ -298,15 +346,3 @@ $access = $_SESSION['access'];
     <script src="js/script.js"></script>
   </body>
 </html>
-<?php
-}
-
-else{
-  ?>
-  <script>
-
-    location.assign('a_login.php');
-
-  </script>
-  <?php
-} ?>

@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html class="wide wow-animation" lang="en">
   <head>
@@ -58,7 +61,20 @@
                       </div>
                     </li>
                   </ul><a class="button button-md button-default-outline-2 button-ujarak" href="#">Get a Free Quote</a>
-                    <a class="button button-md button-default-outline-2 button-ujarak" href="a_login.php">Login</a>
+
+                  <?php
+                  if(isset($_SESSION['username']) && !empty($_SESSION['username']))
+                  {
+                    ?>
+                    <a class="button button-md button-default-outline-2 button-ujarak" href="logout.php">Sign Out</a>
+                    <?php
+                  }
+                  else{
+                  ?>
+                    <a class="button button-md button-default-outline-2 button-ujarak" href="login.php">Login</a>
+                    <?php
+                  }
+                  ?>
                 </div>
               </div>
             </div>
@@ -83,7 +99,14 @@
                     </li>
                     <li class="rd-nav-item"><a class="rd-nav-link" href="guide_register.php">Guide Register</a>
                     </li>
-                    <li class="rd-nav-item"><a class="rd-nav-link" href="guide_list.php">Guide List</a>
+                    <?php
+                    if(isset($_SESSION['username']) && !empty($_SESSION['username']))
+                    {
+                      ?>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="guide_list.php">Guide List</a>
+                      <?php
+                    }
+                    ?>
                     </li>
                   </ul>
                 </div>

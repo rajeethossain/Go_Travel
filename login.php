@@ -1,14 +1,42 @@
-<?php
-session_start();
-if(isset($_SESSION['username']) && !empty($_SESSION['username']))
-{
-$access = $_SESSION['access'];
-// $access == 'admin';
-?>
 <!DOCTYPE html>
 <html class="wide wow-animation" lang="en">
   <head>
-    <title>Home</title>
+  <title>Login</title>
+    <style>
+
+            body {
+            background-color: lightblue;
+            }
+
+            .text{
+
+            height: 20px;
+            border-radius: 5px;
+            padding: 2px;
+            border: solid thin #aaa;
+            width: 90%;
+            }
+
+
+            #button{
+
+            padding: 10px;
+            width: 140px;
+            color: white;
+            background-color: #010d31;
+            border: none;
+            }
+
+            #box{
+
+            background-color: AliceBlue;
+            margin: auto;
+            width: 400px;
+            padding: 20px;
+            }
+
+        </style>
+
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,7 +47,6 @@ $access = $_SESSION['access'];
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/css.css">
     <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
   </head>
   <body>
@@ -67,7 +94,6 @@ $access = $_SESSION['access'];
                       </div>
                     </li>
                   </ul><a class="button button-md button-default-outline-2 button-ujarak" href="#">Get a Free Quote</a>
-                  <a class="button button-md button-default-outline-2 button-ujarak" href="logout.php">Sign Out</a>
                 </div>
               </div>
             </div>
@@ -82,7 +108,7 @@ $access = $_SESSION['access'];
                   </ul>
                   <!-- RD Navbar Nav-->
                   <ul class="rd-navbar-nav">
-                    <li class="rd-nav-item active"><a class="rd-nav-link" href="index.html">Home</a>
+                    <li class="rd-nav-item active"><a class="rd-nav-link" href="index.php">Home</a>
                     </li>
                     <li class="rd-nav-item"><a class="rd-nav-link" href="about.html">About</a>
                     </li>
@@ -98,103 +124,37 @@ $access = $_SESSION['access'];
         </div>
       </header>
 
-      <?php
 
+      <form id="box" action="loginprocess.php" method="POST">
 
-        require_once('db_connect.php');
-      	$connect = mysqli_connect( HOST, USER, PASS, DB )
-      		or die("Can not connect");
-      ?>
+<div style="font-size: 20px;margin: 10px;"><b> LOG IN HERE</b> </div>
 
-<!--------------------------------------------------------------------------------------------------------------------------------------->
+    <label for="username"><b> Username</b> </label>:
+    <input class="text" type="text" id="username" name="username">
+    <br>
+    <label for="mypass"><b> Password</b> </label>:
+    <input class="text" type="password" id="mypass" name="mypass">
+    <br>
 
-              <h2 class="title"> Guide List </h2>
+    <br>
+    <input id="button" type="submit" value="Click to Login">
 
-                  <table id="ptable">
-                      <thead>
-                          <tr>
-                              <th>Image</th>
-                              <th>Name</th>
-                              <th>City</th>
-                              <th>Contact no.</th>
-                              <th>Email</th>
-                              <th>NID</th>
-                              <th>Joining Date</th>
-                              <?php
-                              if($access == 'admin'){
-                                  ?>
-                                  <th>Address</th>
-                                  <th>Bank Account</th>
-                                  <th>PV</th>
-                                  <?php
-                              }
-                              ?>
-                              <th>Action</th>
+</form>
 
+<form id="box" action="register.php" method="POST">
+<div style="font-size: 20px;margin: 10px;"><b> Don't have an account yet? Register Now!</b> </div>
 
-                          </tr>
-                      </thead>
-                      <tbody>
+        <button id="button" type="submit">Register</button>
+        <button id="button" type="button" onclick="a_login()">Log In as Admin</button>
+<br>
+</form>
+<script>
+                    function a_login(){
+                        location.assign('a_login.php');   ///default GET method
+                    }
+     </script>
 
-                        <?php
-
-                          $returnobj = mysqli_query( $connect, "SELECT * FROM guide AS g JOIN city AS ct ON g.City_ID = ct.City_ID" )
-                            or die("Can not execute query");
-
-
-                                while( $rows = mysqli_fetch_array( $returnobj ) ) {
-                                    extract( $rows );
-                                      ?>
-
-                                      <tr>
-                                          <td>
-                                              <img src="<?php echo $Image?>" width="125" height="150">
-                                          </td>
-                                          <td>
-                                            <input id="button2" type="button" value="<?php echo $Name?>" onclick="showProfile('<?php echo $row['guid_id']?>');">
-                                          </td>
-                                          <td><?php echo $City ?></td>
-                                          <td><?php echo $Contact_no ?></td>
-                                          <td><?php echo $Email ?></td>
-                                          <td><?php echo $nid?></td>
-                                          <td><?php echo $Joining_Date ?></td>
-
-                                          <?php
-                                          if($access  == 'admin'){
-                                              ?>
-                                              <td><?php echo $Address?></td>
-                                              <td><?php echo $Bank_Account_no ?></td>
-                                              <td><img src="<?php echo $pv_Image?>" width="125" height="150"></td>
-                                              <td>
-                                                <input id="button2" type="button" value="Delete" onclick="deleteProfile('<?php echo $guide_id ?>');">
-
-                                              </td>
-                                              <?php
-                                          }
-                                          else{
-                                            ?>
-                                            <td>
-                                              <input id="button2" type="button" value="Book" onclick="bookGuide('<?php echo $guide_id ?>');">
-
-                                            </td>
-
-                                          <?php
-                                          }
-                                  }
-
-                          ?>
-                      </tbody>
-                  </table>
-                          <script>
-                          function deleteProfile(guide_id){
-                            location.assign('guide_profile_delete.php?guide_id='+guide_id);
-                          }
-
-                          </script>
-
-<!--------------------------------------------------------------------------------------------------------------------------------------->
-
-
+<br>
 
        <footer class="section footer-corporate context-dark">
         <div class="footer-corporate-inset">
@@ -298,15 +258,3 @@ $access = $_SESSION['access'];
     <script src="js/script.js"></script>
   </body>
 </html>
-<?php
-}
-
-else{
-  ?>
-  <script>
-
-    location.assign('a_login.php');
-
-  </script>
-  <?php
-} ?>

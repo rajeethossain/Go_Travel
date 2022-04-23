@@ -1,10 +1,3 @@
-<?php
-session_start();
-if(isset($_SESSION['username']) && !empty($_SESSION['username']))
-{
-$access = $_SESSION['access'];
-// $access == 'admin';
-?>
 <!DOCTYPE html>
 <html class="wide wow-animation" lang="en">
   <head>
@@ -67,7 +60,6 @@ $access = $_SESSION['access'];
                       </div>
                     </li>
                   </ul><a class="button button-md button-default-outline-2 button-ujarak" href="#">Get a Free Quote</a>
-                  <a class="button button-md button-default-outline-2 button-ujarak" href="logout.php">Sign Out</a>
                 </div>
               </div>
             </div>
@@ -99,8 +91,6 @@ $access = $_SESSION['access'];
       </header>
 
       <?php
-
-
         require_once('db_connect.php');
       	$connect = mysqli_connect( HOST, USER, PASS, DB )
       		or die("Can not connect");
@@ -108,92 +98,83 @@ $access = $_SESSION['access'];
 
 <!--------------------------------------------------------------------------------------------------------------------------------------->
 
-              <h2 class="title"> Guide List </h2>
+      <?php
 
-                  <table id="ptable">
-                      <thead>
-                          <tr>
-                              <th>Image</th>
-                              <th>Name</th>
-                              <th>City</th>
-                              <th>Contact no.</th>
-                              <th>Email</th>
-                              <th>NID</th>
-                              <th>Joining Date</th>
-                              <?php
-                              if($access == 'admin'){
-                                  ?>
-                                  <th>Address</th>
-                                  <th>Bank Account</th>
-                                  <th>PV</th>
-                                  <?php
-                              }
-                              ?>
-                              <th>Action</th>
+        $returnobj= mysqli_query( $connect, "SELECT * FROM guide AS g JOIN city AS ct ON g.City_ID = ct.City_ID WHERE guide_id = '$guide_id'" )
+          or die("Can not execute query");
 
 
-                          </tr>
-                      </thead>
-                      <tbody>
+            while( $rows = mysqli_fetch_array( $returnobj ) ) {
+                extract( $rows );
+              ?>
+              <br>
+              <form id="box2">
+              <br>
 
-                        <?php
+              <img src="<?php echo $gImage ?>" width="125" height="150">
+              <br><br>
+              <label for="name">Name</label>:
+              <input class="text" type="text" id="name" name="name" size="40px" value="<?php echo $Name;?>"readonly>
+              <br><br>
+              <label for="city">City</label>:
+              <input class="text" id="city" name="city" value="<?php echo $City;?>"readonly>
+              <br><br>
+              <label for="department">Department</label>:
+              <input class="text" id="department" name="department" value="<?php echo $row['Department'];?>"readonly>
+              <br><br>
+              <label for="designation">Designation</label>:
+              <input class="text" name="designation" id="designation" value="<?php echo $row['Designation'];?>"readonly>
+              <br><br>
+              <label for="bank_acc">Bank Account</label>:
+              <input class="text" type="text" id="bank_acc" name="bank_acc" size="40px" value="<?php echo $row['Bank_Account_no'];?>"readonly>
+              <br><br>
+              <label for="office_no">Office No</label>:
+              <input class="text" type="text" id="office_no" name="office_no" size="40px" value="0<?php echo $row['Office_no'];?>"readonly>
+              <br><br>
+              <label for="contact_no">Contact No</label>:
+              <input class="text" type="text" id="contact_no" name="contact_no" size="40px" value="0<?php echo $row['Contact_no'];?>"readonly>
+              <br><br>
+              <label for="email">Email</label>:
+              <input class="text" type="text" id="email" name="email" size="40px" value="<?php echo $row['Email'];?>"readonly>
+              <br><br>
+              <label for="addrees">Address</label>:
+              <input class="text" type="text" id="address" name="address" size="40px" value="<?php echo $row['Address'];?>"readonly>
+              <br><br>
+              <label for="joining_date">Joining Date</label>:
+              <input class="text" id="joining_date" name="joining_date" size="40px" value="<?php echo $row['Joining_Date'];?>"readonly>
+              <?php
+              if($access == 'admin'){
+                  ?>
+                      <br><br>
+                      <label for="salary">Salary</label>:
+                      <input id="button2" type="button" value="<?php echo $row['eid']?>" onclick="showSalary(<?php echo $row['eid']?>);">
+                  <?php
+              }
+              ?>
 
-                          $returnobj = mysqli_query( $connect, "SELECT * FROM guide AS g JOIN city AS ct ON g.City_ID = ct.City_ID" )
-                            or die("Can not execute query");
+              <br><br>
+              <input type="button" id="button" value="UPDATE" onclick="update_data('<?php echo $row['eid'] ?>');">
+              <input type="button" id="button" value="DELETE" onclick="delete_data('<?php echo $row['eid'] ?>');">
+              <input type="button" id="button" value="BACK" onclick="back();">
+
+              </form>
 
 
-                                while( $rows = mysqli_fetch_array( $returnobj ) ) {
-                                    extract( $rows );
-                                      ?>
+              <?php
 
-                                      <tr>
-                                          <td>
-                                              <img src="<?php echo $Image?>" width="125" height="150">
-                                          </td>
-                                          <td>
-                                            <input id="button2" type="button" value="<?php echo $Name?>" onclick="showProfile('<?php echo $row['guid_id']?>');">
-                                          </td>
-                                          <td><?php echo $City ?></td>
-                                          <td><?php echo $Contact_no ?></td>
-                                          <td><?php echo $Email ?></td>
-                                          <td><?php echo $nid?></td>
-                                          <td><?php echo $Joining_Date ?></td>
+            }
+          }
+      }
+      catch(PDOException $ex){
+          ?>
+              <script>location.assign("login.php");</script>
+          <?php
+      }
 
-                                          <?php
-                                          if($access  == 'admin'){
-                                              ?>
-                                              <td><?php echo $Address?></td>
-                                              <td><?php echo $Bank_Account_no ?></td>
-                                              <td><img src="<?php echo $pv_Image?>" width="125" height="150"></td>
-                                              <td>
-                                                <input id="button2" type="button" value="Delete" onclick="deleteProfile('<?php echo $guide_id ?>');">
+      ?>
 
-                                              </td>
-                                              <?php
-                                          }
-                                          else{
-                                            ?>
-                                            <td>
-                                              <input id="button2" type="button" value="Book" onclick="bookGuide('<?php echo $guide_id ?>');">
-
-                                            </td>
-
-                                          <?php
-                                          }
-                                  }
-
-                          ?>
-                      </tbody>
-                  </table>
-                          <script>
-                          function deleteProfile(guide_id){
-                            location.assign('guide_profile_delete.php?guide_id='+guide_id);
-                          }
-
-                          </script>
 
 <!--------------------------------------------------------------------------------------------------------------------------------------->
-
 
 
        <footer class="section footer-corporate context-dark">
@@ -298,15 +279,3 @@ $access = $_SESSION['access'];
     <script src="js/script.js"></script>
   </body>
 </html>
-<?php
-}
-
-else{
-  ?>
-  <script>
-
-    location.assign('a_login.php');
-
-  </script>
-  <?php
-} ?>

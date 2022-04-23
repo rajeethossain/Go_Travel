@@ -26,11 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             ///setting 1 environment variable
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-           // $enc_password = md5($pass);
+            // $enc_password = md5($pass);
+            // $enc_password = '1234';
 
-            // checking Data
-            //$myquery = "SELECT * FROM farmer WHERE f_username = '$username' and password = '$enc_password'";
-            $myquery="SELECT * FROM admin WHERE a_username = '$username' and password ='$pass'";
+            $myquery="SELECT * FROM user WHERE username = '$username' and password ='$pass'";
 
 
             $returnobj = $conn->query($myquery);  // the return object is pdo statement object
@@ -38,16 +37,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             if($returnobj->rowCount() == 1){
                 session_start();
                 $_SESSION['username'] = $username;
-                $_SESSION['access'] = 'admin';
-              //  $_SESSION['role'] = $role;   //after session starts
-                ?>
-                <script>window.location.assign("index.php");</script>
-                <?php
+                $_SESSION['access'] = 'user';
+                ?><script>window.location.assign("index.php");</script><?php
+
             }
             else {
             ?>
                 <script>alert("Wrong username and password.");</script>
-                <script>window.location.assign("a_login.php");</script>
+                <script>window.location.assign("login.php");</script>
             <?php
             }
 
@@ -55,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             catch(PDOException $ex){
                 ?>
                     <script>alert("Database error.");</script>
-                    <script>window.location.assign("a_login.php");</script>
+                    <script>window.location.assign("login.php");</script>
                 <?php
             }
         }
@@ -64,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     {
         ?>
         <script>alert("Fill up all the information.");</script>
-        <script>location.assign("a_login.php");</script>
+        <script>location.assign("login.php");</script>
     <?php
     }
 
@@ -72,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 else
 {
     ?>
-        <script>location.assign("a_login.php");</script>
+        <script>location.assign("login.php");</script>
     <?php
 }
 

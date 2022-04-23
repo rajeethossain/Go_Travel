@@ -1,14 +1,88 @@
 <?php
 session_start();
-if(isset($_SESSION['username']) && !empty($_SESSION['username']))
+if(
+    isset($_SESSION['username'])
+    && !empty($_SESSION['username'])
+)
 {
-$access = $_SESSION['access'];
-// $access == 'admin';
-?>
+    // $role = $_SESSION['role'];
+    $username = $_SESSION['username'];
+    ?>
+
 <!DOCTYPE html>
 <html class="wide wow-animation" lang="en">
   <head>
-    <title>Home</title>
+  <title>Profile</title>
+
+<style>
+
+        body {
+                background-color: lightblue;
+            }
+
+        .text{
+
+                    height: 25px;
+                    border-radius: 5px;
+                    padding: 2px;
+                    border: solid thin #aaa;
+                    width: 90%;
+                }
+
+
+                #button{
+
+                    padding: 10px;
+                    width: 170px;
+                    color: white;
+                    background-color: #010d31;
+                    border: none;
+                }
+
+                #box{
+
+                    background-color: AliceBlue;
+                    margin: auto;
+                    width: 500px;
+                    padding: 40px;
+                }
+
+
+                .text{
+                    height: 25px;
+                    border-radius: 5px;
+                    padding: 2px;
+                    border: solid thin #aaa;
+                    width: 90%;
+                }
+
+                .header {
+                  background-color: skyblue;
+                  overflow: hidden;
+                }
+
+                .header left {
+                  float: left;
+                  color: black;
+                  text-align: center;
+                  padding: 14px 16px;
+                  text-decoration: none;
+                  font-size: 30px;
+                }
+
+                .header right {
+                  float: right;
+                  color: #f2f2f2;
+                  text-align: center;
+                  padding: 14px 16px;
+                  text-decoration: none;
+                  font-size: 20px;
+                }
+
+
+
+        </style>
+
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,7 +93,6 @@ $access = $_SESSION['access'];
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/css.css">
     <style>.ie-panel{display: none;background: #212121;padding: 10px 0;box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3);clear: both;text-align:center;position: relative;z-index: 1;} html.ie-10 .ie-panel, html.lt-ie-10 .ie-panel {display: block;}</style>
   </head>
   <body>
@@ -33,7 +106,7 @@ $access = $_SESSION['access'];
       </div>
     </div>
     <div class="page">
-
+      
       <header class="section page-header">
         <!-- RD Navbar-->
         <div class="rd-navbar-wrap">
@@ -67,7 +140,6 @@ $access = $_SESSION['access'];
                       </div>
                     </li>
                   </ul><a class="button button-md button-default-outline-2 button-ujarak" href="#">Get a Free Quote</a>
-                  <a class="button button-md button-default-outline-2 button-ujarak" href="logout.php">Sign Out</a>
                 </div>
               </div>
             </div>
@@ -98,103 +170,121 @@ $access = $_SESSION['access'];
         </div>
       </header>
 
-      <?php
+
+      <h1 class="header">
+            <left>Go Travel</left>
+            <right>
+              <!-- <input id="button" type="button" value="Home Page" onclick="home()"> -->
+              <!-- <input id="button" type="button" value="My Notifications" onclick="notification()"> -->
+              <input type="button" id="button" value="Logout" onclick="logoutfn();">
+            </right>
+
+          </h1>
 
 
-        require_once('db_connect.php');
-      	$connect = mysqli_connect( HOST, USER, PASS, DB )
-      		or die("Can not connect");
-      ?>
+        <br><br>
+        <div id="box" style="font-size: 20px;margin: 10px;"><b>Welcome<?php echo $username?></b>
+        <br>
 
-<!--------------------------------------------------------------------------------------------------------------------------------------->
+        <?php
 
-              <h2 class="title"> Guide List </h2>
+        try{
+            // PHP Data Object
+            $conn=new PDO("mysql:host=localhost:3306;dbname=go_travel;","root","");
+            ///setting 1 environment variable
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                  <table id="ptable">
-                      <thead>
-                          <tr>
-                              <th>Image</th>
-                              <th>Name</th>
-                              <th>City</th>
-                              <th>Contact no.</th>
-                              <th>Email</th>
-                              <th>NID</th>
-                              <th>Joining Date</th>
-                              <?php
-                              if($access == 'admin'){
-                                  ?>
-                                  <th>Address</th>
-                                  <th>Bank Account</th>
-                                  <th>PV</th>
-                                  <?php
-                              }
-                              ?>
-                              <th>Action</th>
+            ///executing mysql query
+            $signupquery="SELECT * FROM user WHERE username = '$username'";
 
 
-                          </tr>
-                      </thead>
-                      <tbody>
+            $returnobj = $conn->query($signupquery);
+            $returntable = $returnobj->fetchAll();
 
-                        <?php
+            if($returnobj->rowCount() == 1)
+            {
+                foreach($returntable as $row){
+                ?><br><?php
+                echo "<b>Username :</b> ".$row['username'];
+                ?><br><?php
+                echo "<b>Full name :</b> ".$row['Name'];
+                ?><br><?php
+                echo "<b>Phone Number : </b>+880".$row['Contact_no'];
+                ?><br><?php
+                echo "<b>Country :</b> ".$row['Country'];
+                ?><br><?php
+                echo "<b>District : </b>".$row['District'];
+                ?><br><?php
+                echo "<b>City :</b> ".$row['City'];
+                ?><br><?php
+                echo "<b>Address : </b>".$row['Address'];
+                ?><br><?php
+                echo "<b>NID Number :</b>".$row['NID Number'];
+                ?><br><?php
+                echo "<b>Passport Number :</b>".$row['Passport Number'];
+                // if($Country == 'Bangladesh'){
+                //     ?><br><?php
+                //     echo "NID Number :".$row['NID_Number'];
+                //   }
+                // if($Country != 'Bangladesh'){
+                //     ?><br><?php
+                //     echo "Passport Number :".$row['Passport_Number'];
+                //   }
+                
+                
 
-                          $returnobj = mysqli_query( $connect, "SELECT * FROM guide AS g JOIN city AS ct ON g.City_ID = ct.City_ID" )
-                            or die("Can not execute query");
+            }
+            }
+        }
+        catch(PDOException $ex){
+            ?>
+                <script>location.assign("login.php");</script>
+            <?php
+        }
 
+        ?>
 
-                                while( $rows = mysqli_fetch_array( $returnobj ) ) {
-                                    extract( $rows );
-                                      ?>
+        <input id="button" type="button" value="Update Profile" onclick="update();">
 
-                                      <tr>
-                                          <td>
-                                              <img src="<?php echo $Image?>" width="125" height="150">
-                                          </td>
-                                          <td>
-                                            <input id="button2" type="button" value="<?php echo $Name?>" onclick="showProfile('<?php echo $row['guid_id']?>');">
-                                          </td>
-                                          <td><?php echo $City ?></td>
-                                          <td><?php echo $Contact_no ?></td>
-                                          <td><?php echo $Email ?></td>
-                                          <td><?php echo $nid?></td>
-                                          <td><?php echo $Joining_Date ?></td>
-
-                                          <?php
-                                          if($access  == 'admin'){
-                                              ?>
-                                              <td><?php echo $Address?></td>
-                                              <td><?php echo $Bank_Account_no ?></td>
-                                              <td><img src="<?php echo $pv_Image?>" width="125" height="150"></td>
-                                              <td>
-                                                <input id="button2" type="button" value="Delete" onclick="deleteProfile('<?php echo $guide_id ?>');">
-
-                                              </td>
-                                              <?php
-                                          }
-                                          else{
-                                            ?>
-                                            <td>
-                                              <input id="button2" type="button" value="Book" onclick="bookGuide('<?php echo $guide_id ?>');">
-
-                                            </td>
-
-                                          <?php
-                                          }
-                                  }
-
-                          ?>
-                      </tbody>
-                  </table>
-                          <script>
-                          function deleteProfile(guide_id){
-                            location.assign('guide_profile_delete.php?guide_id='+guide_id);
-                          }
-
-                          </script>
-
-<!--------------------------------------------------------------------------------------------------------------------------------------->
+        </div>
 
 
+        <br>
+
+        <script>
+                    // function home(){
+                    //     location.assign('home.php');   ///default GET method
+                    // }
+
+                    function profile(){
+                        location.assign('profile.php');   ///default GET method
+                    }
+                    function logoutfn(){
+                        location.assign('logout.php');   ///default GET method
+                    }
+
+                    function update(){
+                        location.assign('updateprofile.php');   ///default GET method
+                    }
+
+                    // function notification(){
+                    //     location.assign('notification.php');
+                    // }
+
+                    
+
+        </script>
+
+<?php
+}
+else
+{
+    ?>
+            <script>location.assign("login.php");</script>
+    <?php
+}
+
+?>
 
        <footer class="section footer-corporate context-dark">
         <div class="footer-corporate-inset">
@@ -298,15 +388,5 @@ $access = $_SESSION['access'];
     <script src="js/script.js"></script>
   </body>
 </html>
-<?php
-}
 
-else{
-  ?>
-  <script>
 
-    location.assign('a_login.php');
-
-  </script>
-  <?php
-} ?>
