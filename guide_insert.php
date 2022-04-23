@@ -69,7 +69,7 @@
           ?>
               <script>
               alert("Sent for validation.");
-              location.assign("guide_register.php");
+              location.assign("index.php");
               </script>
           <?php
 

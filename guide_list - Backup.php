@@ -117,21 +117,18 @@ $access = $_SESSION['access'];
                               <th>City</th>
                               <th>Contact no.</th>
                               <th>Email</th>
-                              <!-- <th>NID</th>
-                              <th>Joining Date</th> -->
+                              <th>NID</th>
+                              <th>Joining Date</th>
                               <?php
                               if($access == 'admin'){
                                   ?>
                                   <th>Address</th>
-                                  <!-- <th>Bank Account</th>
-                                  <th>PV</th> -->
+                                  <th>Bank Account</th>
+                                  <th>PV</th>
                                   <?php
                               }
-                              else{
                               ?>
                               <th>Action</th>
-                              <?php
-                            } ?>
 
 
                           </tr>
@@ -158,19 +155,19 @@ $access = $_SESSION['access'];
                                           <td><?php echo $City ?></td>
                                           <td><?php echo $Contact_no ?></td>
                                           <td><?php echo $Email ?></td>
-                                          <!-- <td><?php echo $nid?></td>
-                                          <td><?php echo $Joining_Date ?></td> -->
+                                          <td><?php echo $nid?></td>
+                                          <td><?php echo $Joining_Date ?></td>
 
                                           <?php
                                           if($access  == 'admin'){
                                               ?>
                                               <td><?php echo $Address?></td>
-                                              <!-- <td><?php echo $Bank_Account_no ?></td> -->
-                                              <!-- <td><img src="<?php echo $pv_Image?>" width="125" height="150"></td> -->
-                                              <!-- <td>
+                                              <td><?php echo $Bank_Account_no ?></td>
+                                              <td><img src="<?php echo $pv_Image?>" width="125" height="150"></td>
+                                              <td>
                                                 <input id="button" type="button" value="Delete" onclick="deleteProfile('<?php echo $guide_id ?>');">
 
-                                              </td> -->
+                                              </td>
                                               <?php
                                           }
                                           else{
