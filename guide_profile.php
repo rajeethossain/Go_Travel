@@ -183,7 +183,11 @@ if(isset($_SESSION['username']) && !empty($_SESSION['username']) )
                                 <?php
                               }
                       }
+                      if($access == 'user'){
                       ?>
+                      <input type="button" id="button" value="BOOK" onclick="book();">
+                      <?php
+                      } ?>
                       <input type="button" id="button" value="BACK" onclick="back();">
 
                       </form>

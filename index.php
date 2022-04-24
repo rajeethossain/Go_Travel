@@ -99,6 +99,8 @@ session_start();
                     </li>
                     <li class="rd-nav-item"><a class="rd-nav-link" href="guide_register.php">Guide Register</a>
                     </li>
+                    <li class="rd-nav-item"><a class="rd-nav-link" href="guide_approve_list.php">Guide Requests</a>
+                    </li>
                     <?php
                     if(isset($_SESSION['username']) && !empty($_SESSION['username']))
                     {
