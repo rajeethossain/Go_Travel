@@ -168,13 +168,22 @@ if(isset($_SESSION['username']) && !empty($_SESSION['username']) )
                               <img src="<?php echo $pv_Image?>" width="400" height="300">
 
                               <br><br>
-                              <input type="button" id="button" value="UPDATE" onclick="update_data('<?php echo $row['eid'] ?>');">
+                              <input type="button" id="button" value="UPDATE" onclick="update_data('<?php echo $guide_id ?>');">
                               <input type="button" id="button" value="DELETE" onclick="deleteProfile('<?php echo $guide_id ?>');">
-
-                          <?php
+                              <br><br>
+                              <?php
+                              if($Approved  == 2){
+                                ?>
+                                <input type="button" id="button" value="UNBLOCK" onclick="blockGuide('<?php echo $guide_id ?>');">
+                                <?php
+                              }
+                              else{
+                                ?>
+                                <input type="button" id="button" value="BLOCK" onclick="blockGuide('<?php echo $guide_id ?>');">
+                                <?php
+                              }
                       }
                       ?>
-                      <br><br>
                       <input type="button" id="button" value="BACK" onclick="back();">
 
                       </form>
@@ -182,6 +191,9 @@ if(isset($_SESSION['username']) && !empty($_SESSION['username']) )
                       <script>
                       function deleteProfile(guide_id){
                         location.assign('guide_profile_delete.php?guide_id='+guide_id);
+                      }
+                      function blockGuide(guide_id){
+                        location.assign('guide_block.php?guide_id='+guide_id);
                       }
 
                       function back(){

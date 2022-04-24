@@ -123,6 +123,7 @@ $access = $_SESSION['access'];
                               if($access == 'admin'){
                                   ?>
                                   <th>Address</th>
+                                  <th>Status</th>
                                   <!-- <th>Bank Account</th>
                                   <th>PV</th> -->
                                   <?php
@@ -139,9 +140,15 @@ $access = $_SESSION['access'];
                       <tbody>
 
                         <?php
-
-                          $returnobj = mysqli_query( $connect, "SELECT * FROM guide AS g JOIN city AS ct ON g.City_ID = ct.City_ID WHERE Approved = 1" )
+                          if($access  == 'admin'){
+                            $returnobj = mysqli_query( $connect, "SELECT * FROM guide AS g JOIN city AS ct ON g.City_ID = ct.City_ID WHERE Approved = 1 OR 2" )
                             or die("Can not execute query");
+                          }
+
+                          else{
+                            $returnobj = mysqli_query( $connect, "SELECT * FROM guide AS g JOIN city AS ct ON g.City_ID = ct.City_ID WHERE Approved = 1" )
+                            or die("Can not execute query");
+                          }
 
 
                                 while( $rows = mysqli_fetch_array( $returnobj ) ) {
@@ -165,6 +172,19 @@ $access = $_SESSION['access'];
                                           if($access  == 'admin'){
                                               ?>
                                               <td><?php echo $Address?></td>
+                                              <?php
+                                              if($Approved  == 1){
+                                                  ?>
+                                                  <td>Active</td>
+                                                  <?php
+                                              }
+                                              else{
+                                                  ?>
+                                                  <td>Blocked</td>
+                                                  <?php
+                                              }
+                                              ?>
+
                                               <!-- <td><?php echo $Bank_Account_no ?></td> -->
                                               <!-- <td><img src="<?php echo $pv_Image?>" width="125" height="150"></td> -->
                                               <!-- <td>
