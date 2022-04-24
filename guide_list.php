@@ -3,6 +3,7 @@ session_start();
 if(isset($_SESSION['username']) && !empty($_SESSION['username']))
 {
 $access = $_SESSION['access'];
+$username = $_SESSION['username'];
 ?>
 <!DOCTYPE html>
 <html class="wide wow-animation" lang="en">
@@ -55,7 +56,7 @@ $access = $_SESSION['access'];
                       <div class="unit unit-spacing-xs">
                         <div class="unit-left"><span class="icon fa fa-clock-o"></span></div>
                         <div class="unit-body">
-                          <p>09:00<span>am</span> — 05:00<span>pm</span></p>
+                          <p><?php echo $username ?></p>
                         </div>
                       </div>
                     </li>
